@@ -309,7 +309,203 @@ describe('Confusion Matrix Tests', () => {
             .toEqual(0.0);
     });
 
+    it('getF1Score for binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[1], [1], [0], [1], [0], [0], [1], [0], [0], [0]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[1], [0], [0], [1], [0], [0], [1], [1], [1], [0]]
+            },
+        });
 
+        expect(visualization.getF1Score(0, visualization.getConfusionMatrix()))
+            .toBeCloseTo(8.0 / 11.0);
+        expect(visualization.getF1Score(1, visualization.getConfusionMatrix()))
+            .toBeCloseTo(2.0 / 3.0);
+    });
+    
+    it('getF1Score for non-binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[0], [1], [2], [3], [0], [1], [2], [3], [0], [1]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[0], [1], [2], [0], [1], [2], [3], [1], [2], [3]]
+            },
+        });
+
+        expect(visualization.getF1Score(0, visualization.getConfusionMatrix()))
+            .toBeCloseTo(0.4);
+        expect(visualization.getF1Score(1, visualization.getConfusionMatrix()))
+            .toBeCloseTo(1.0 / 3.0);
+        expect(visualization.getF1Score(2, visualization.getConfusionMatrix()))
+            .toBeCloseTo(2.0 / 5.0);
+        expect(visualization.getF1Score(3, visualization.getConfusionMatrix()))
+            .toEqual(0.0);
+    });
+
+    it('getSupport for binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[1], [1], [0], [1], [0], [0], [1], [0], [0], [0]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[1], [0], [0], [1], [0], [0], [1], [1], [1], [0]]
+            },
+        });
+        expect((visualization.getSupport(0, visualization.getConfusionMatrix())))
+            .toEqual(5);
+        expect((visualization.getSupport(1, visualization.getConfusionMatrix())))
+            .toEqual(5);
+    });
+    
+    it('getSupport for non-binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[0], [1], [2], [3], [0], [1], [2], [3], [0], [1]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[0], [1], [2], [0], [1], [2], [3], [1], [2], [3]]
+            },
+        });
+        expect((visualization.getSupport(0, visualization.getConfusionMatrix())))
+            .toEqual(2);
+        expect((visualization.getSupport(1, visualization.getConfusionMatrix())))
+            .toEqual(3);
+        expect((visualization.getSupport(2, visualization.getConfusionMatrix())))
+            .toEqual(3);
+        expect((visualization.getSupport(3, visualization.getConfusionMatrix())))
+            .toEqual(2);
+    });
+
+    it('getAvgPrecision for binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[1], [1], [0], [1], [0], [0], [1], [0], [0], [0]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[1], [0], [0], [1], [0], [0], [1], [1], [1], [0]]
+            },
+        });
+        expect(visualization.getAvgPrecision(visualization.getConfusionMatrix()))
+            .toEqual(0.7);
+    });
+    
+    it('getAvgPrecision for non-binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[0], [1], [2], [3], [0], [1], [2], [3], [0], [1]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[0], [1], [2], [0], [1], [2], [3], [1], [2], [3]]
+            },
+        });
+        expect(visualization.getAvgPrecision(visualization.getConfusionMatrix()))
+            .toBeCloseTo(7/24);
+    });
+    
+    it('getAvgRecall for binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[1], [1], [0], [1], [0], [0], [1], [0], [0], [0]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[1], [0], [0], [1], [0], [0], [1], [1], [1], [0]]
+            },
+        });
+        expect(visualization.getAvgRecall(visualization.getConfusionMatrix()))
+            .toBeCloseTo(17/24);
+    });
+    
+    it('getAvgRecall for non-binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[0], [1], [2], [3], [0], [1], [2], [3], [0], [1]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[0], [1], [2], [0], [1], [2], [3], [1], [2], [3]]
+            },
+        });
+        expect(visualization.getAvgRecall(visualization.getConfusionMatrix()))
+            .toBeCloseTo(7/24);
+    });
+    
+    it('getAvgF1Score for binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[1], [1], [0], [1], [0], [0], [1], [0], [0], [0]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[1], [0], [0], [1], [0], [0], [1], [1], [1], [0]]
+            },
+        });
+        expect(visualization.getAvgF1Score(visualization.getConfusionMatrix()))
+            .toBeCloseTo(23/33);
+    });
+    
+    it('getAvgF1Score for non-binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[0], [1], [2], [3], [0], [1], [2], [3], [0], [1]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[0], [1], [2], [0], [1], [2], [3], [1], [2], [3]]
+            },
+        });
+        expect(visualization.getAvgF1Score(visualization.getConfusionMatrix()))
+            .toBeCloseTo(17/60);
+    });
+    
+    it('getTotalSupport for binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[1], [1], [0], [1], [0], [0], [1], [0], [0], [0]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[1], [0], [0], [1], [0], [0], [1], [1], [1], [0]]
+            },
+        });
+        expect(visualization.getTotalSupport(visualization.getConfusionMatrix()))
+            .toEqual(10);
+    });
+    
+    it('getTotalSupport for non-binary matrix', () => {
+        visualization.getInputs().submit({
+            expected: {
+                features: ['expected'],
+                examples: [[0], [1], [2], [3], [0], [1], [2], [3], [0], [1]]
+            },
+            predicted: {
+                features: ['predicted'],
+                examples: [[0], [1], [2], [0], [1], [2], [3], [1], [2], [3]]
+            },
+        });
+        expect(visualization.getTotalSupport(visualization.getConfusionMatrix()))
+            .toEqual(10);
+    });
 
 
 

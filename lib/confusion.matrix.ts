@@ -294,6 +294,9 @@ export class ConfusionMatrix extends VisualizationPlugin {
     getF1Score(index: number, matrix: Matrix) {
         const precision = this.getPrecision(index, matrix);
         const recall = this.getRecall(index, matrix);
+        if (precision + recall === 0) {
+            return 0;
+        }
         return 2 * (precision * recall) / (precision + recall);
     }
 
