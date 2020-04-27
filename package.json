@@ -20,9 +20,15 @@
     "url": "https://github.com/data-science-lab-app/dsl-confusion-matrix/issues"
   },
   "homepage": "https://github.com/data-science-lab-app/dsl-confusion-matrix#readme",
-  "data_science_lab": [],
+  "data_science_lab": [
+    {
+      "name": "Confusion Matrix",
+      "type": "Visualization",
+      "classname": "ConfusionMatrix"
+    }
+  ],
   "dependencies": {
-    "data-science-lab-core": "^0.0.27"
+    "data-science-lab-core": "^0.0.30"
   },
   "devDependencies": {
     "@types/node": "^12.11.1",
