@@ -124,7 +124,7 @@ export class ConfusionMatrix extends VisualizationPlugin {
                 <thead>
                     <tr>
                         <th colspan="2" rowspan="2" class="dark-blue">
-                            ${this.title}
+                            ${!this.title ? 'Confusion Matrix' : this.title}
                         </th>
                         <th colspan="2" class="gold">
                             Expected
