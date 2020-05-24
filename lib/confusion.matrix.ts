@@ -118,13 +118,19 @@ export class ConfusionMatrix extends VisualizationPlugin {
     }
 
     getConfusionMatrixTable(isBinary: boolean, matrix: Matrix): string {
+        let title = '';
+        if (!!this.title) {
+            title = this.title;
+        } else {
+            title = 'Confusion Matrix';
+        }
         if (isBinary) {
             return `
             <table>
                 <thead>
                     <tr>
                         <th colspan="2" rowspan="2" class="dark-blue">
-                            ${!this.title ? 'Confusion Matrix' : this.title}
+                            ${title}
                         </th>
                         <th colspan="2" class="gold">
                             Expected
@@ -157,7 +163,7 @@ export class ConfusionMatrix extends VisualizationPlugin {
                 <thead>
                     <tr>
                         <th colspan="2" rowspan="2" class="dark-blue">
-                            ${this.title}
+                            ${title}
                         </th>
                         <th colspan="${matrix.labels.length}" class="gold">
                             Expected
@@ -177,13 +183,13 @@ export class ConfusionMatrix extends VisualizationPlugin {
                         ${matrix.values[0].slice(1).map((value) => `<td>${value}</td>`).join('\n')}
                     </tr>
                     ${
-                        matrix.values.slice(1).map((row, index) => `
+                matrix.values.slice(1).map((row, index) => `
                             <tr>
                                 <td class="blue">${matrix.labels[index + 1]}</td>
                                 ${row.map((value, cmpIndex) => `<td class="${index + 1 === cmpIndex ? 'green' : ''}">${value}</td>`).join('\n')}
                             </tr>
                         `).join('\n')
-                    }
+                }
                 </tbody>
                 </table>
             `;
@@ -212,18 +218,18 @@ export class ConfusionMatrix extends VisualizationPlugin {
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="blue">0</td>
-                        <td>${this.getPrecision(0, matrix)}</td>
-                        <td>${this.getRecall(0, matrix)}</td>
-                        <td>${this.getF1Score(0, matrix)}</td>
-                        <td>${this.getSupport(0, matrix)}</td>
-                    </tr>
-                    <tr>
-                        <td class="blue">1</td>
+                        <td class="blue">Positive</td>
                         <td>${this.getPrecision(1, matrix)}</td>
                         <td>${this.getRecall(1, matrix)}</td>
                         <td>${this.getF1Score(1, matrix)}</td>
                         <td>${this.getSupport(1, matrix)}</td>
+                    </tr>
+                    <tr>
+                        <td class="blue">Negative</td>
+                        <td>${this.getPrecision(0, matrix)}</td>
+                        <td>${this.getRecall(0, matrix)}</td>
+                        <td>${this.getF1Score(0, matrix)}</td>
+                        <td>${this.getSupport(0, matrix)}</td>
                     </tr>
                     <tr>
                         <td class="blue">avg / total</td>
@@ -255,7 +261,7 @@ export class ConfusionMatrix extends VisualizationPlugin {
         </thead>
         <tbody>
             ${
-                matrix.labels.map((label, index) => 
+                matrix.labels.map((label, index) =>
                     `
                     <tr>
                         <td class="blue">${label}</td>
@@ -266,7 +272,7 @@ export class ConfusionMatrix extends VisualizationPlugin {
                     </tr>
                     `
                 ).join('\n')
-            }
+                }
             <tr>
                 <td class="blue">avg / total</td>
                 <td>${this.getAvgPrecision(matrix)}</td>
